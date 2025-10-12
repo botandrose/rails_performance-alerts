@@ -1,0 +1,9 @@
+/.bundle/
+/Gemfile.lock
+/gemfiles/*.lock
+/coverage/
+/doc/
+/pkg/
+/tmp/
+.ruby-version
+.ruby-gemset

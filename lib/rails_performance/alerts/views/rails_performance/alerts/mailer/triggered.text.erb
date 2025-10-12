@@ -1,0 +1,15 @@
+🚨 ALERT TRIGGERED 🚨
+
+<%= @name %> <%= @current_value.nil? ? "has no data available." : "has exceeded its threshold." %>
+
+Alert Details:
+----------------
+Current Value: <%= @current_value.nil? ? "No data available" : @current_value %>
+Time Window:   <%= @time_window %>
+Duration:      <%= @duration %>
+Triggered At:  <%= @triggered_at.strftime("%Y-%m-%d %H:%M:%S %Z") %>
+
+Please investigate this issue as soon as possible.
+
+---
+This is an automated alert from RailsPerformance::Alerts

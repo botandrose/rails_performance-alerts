@@ -1,0 +1,30 @@
+<div class="alert-box success">
+  <div class="alert-header">
+    ✅ Alert Resolved
+  </div>
+
+  <p><strong><%= @name %></strong> <%= @current_value.nil? ? "data is now available." : "has returned to normal levels." %></p>
+
+  <div class="alert-details">
+    <div class="detail-row">
+      <div class="detail-label">Current Value:</div>
+      <div class="detail-value"><%= @current_value.nil? ? "No data available" : @current_value %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Was Triggered At:</div>
+      <div class="detail-value"><%= @was_triggered_at.strftime("%Y-%m-%d %H:%M:%S %Z") %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Resolved At:</div>
+      <div class="detail-value"><%= @resolved_at.strftime("%Y-%m-%d %H:%M:%S %Z") %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Duration:</div>
+      <div class="detail-value"><%= @duration_triggered %></div>
+    </div>
+  </div>
+
+  <p style="margin-top: 20px;">
+    The alert condition is no longer active.
+  </p>
+</div>

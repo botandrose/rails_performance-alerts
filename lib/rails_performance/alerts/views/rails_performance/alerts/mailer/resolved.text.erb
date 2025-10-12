@@ -1,0 +1,15 @@
+✅ ALERT RESOLVED ✅
+
+<%= @name %> has returned to normal levels.
+
+Alert Details:
+----------------
+Current Value:     <%= @current_value %>
+Was Triggered At:  <%= @was_triggered_at.strftime("%Y-%m-%d %H:%M:%S %Z") %>
+Resolved At:       <%= @resolved_at.strftime("%Y-%m-%d %H:%M:%S %Z") %>
+Duration:          <%= @duration_triggered %>
+
+The alert condition is no longer active.
+
+---
+This is an automated alert from RailsPerformance::Alerts

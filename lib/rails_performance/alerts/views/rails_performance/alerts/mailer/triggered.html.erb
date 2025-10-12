@@ -1,0 +1,30 @@
+<div class="alert-box warning">
+  <div class="alert-header">
+    🚨 Alert Triggered
+  </div>
+
+  <p><strong><%= @name %></strong> <%= @current_value.nil? ? "has no data available." : "has exceeded its threshold." %></p>
+
+  <div class="alert-details">
+    <div class="detail-row">
+      <div class="detail-label">Current Value:</div>
+      <div class="detail-value"><%= @current_value.nil? ? "No data available" : @current_value %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Time Window:</div>
+      <div class="detail-value"><%= @time_window %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Duration:</div>
+      <div class="detail-value"><%= @duration %></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Triggered At:</div>
+      <div class="detail-value"><%= @triggered_at.strftime("%Y-%m-%d %H:%M:%S %Z") %></div>
+    </div>
+  </div>
+
+  <p style="margin-top: 20px;">
+    Please investigate this issue as soon as possible.
+  </p>
+</div>
