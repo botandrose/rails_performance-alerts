@@ -45,7 +45,7 @@ class AlertRuleTest < ActiveSupport::TestCase
 
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 1.minute
     )
@@ -65,7 +65,7 @@ class AlertRuleTest < ActiveSupport::TestCase
 
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 1.minute
     )
@@ -78,7 +78,7 @@ class AlertRuleTest < ActiveSupport::TestCase
   test "evaluate returns nil and true when no resource servers found (ResourceChart, default alert_on_missing_data)" do
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 1.minute
     )
@@ -91,7 +91,7 @@ class AlertRuleTest < ActiveSupport::TestCase
   test "evaluate returns nil and false when no resource servers found and alert_on_missing_data is false" do
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 1.minute,
       alert_on_missing_data: false
@@ -149,20 +149,20 @@ class AlertRuleTest < ActiveSupport::TestCase
   test "accepts ResourceChart classes" do
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 5.minutes,
       duration: 2.minutes
     )
 
     assert_equal "High CPU", rule.name
-    assert_equal RailsPerformance::SystemMonitor::CPULoad, rule.report_class
+    assert_equal RailsPerformance::Widgets::CPULoad, rule.report_class
   end
 
   test "accepts optional server parameter for ResourceChart" do
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High Memory on Server1",
-      report: RailsPerformance::SystemMonitor::MemoryUsage,
+      report: RailsPerformance::Widgets::MemoryUsage,
       threshold: ->(value) { value > 1000000000 },
       server: "server1///production///web"
     )
@@ -187,7 +187,7 @@ class AlertRuleTest < ActiveSupport::TestCase
 
     rule = RailsPerformance::Alerts::Rule.new(
       name: "High CPU on Server1",
-      report: RailsPerformance::SystemMonitor::CPULoad,
+      report: RailsPerformance::Widgets::CPULoad,
       threshold: ->(value) { value > 80 },
       time_window: 1.minute,
       server: "server1///production///web"
@@ -226,14 +226,14 @@ class AlertRuleTest < ActiveSupport::TestCase
     assert_equal RailsPerformance::Reports::ResponseTimeReport, rule.report_class
   end
 
-  test "accepts string report name from SystemMonitor namespace" do
+  test "accepts string report name from Widgets namespace" do
     rule = RailsPerformance::Alerts::Rule.new(
       name: "Test",
       report: "CPULoad",
       threshold: ->(value) { value > 80 }
     )
 
-    assert_equal RailsPerformance::SystemMonitor::CPULoad, rule.report_class
+    assert_equal RailsPerformance::Widgets::CPULoad, rule.report_class
   end
 
   test "accepts string report name from top level" do
