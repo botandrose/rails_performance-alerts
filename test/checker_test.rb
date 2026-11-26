@@ -317,7 +317,7 @@ class AlertCheckerTest < ActiveSupport::TestCase
     RailsPerformance.alert_rules = [
       {
         name: "High CPU Load",
-        report: RailsPerformance::SystemMonitor::CPULoad,
+        report: RailsPerformance::Widgets::CPULoad,
         threshold: ->(value) { value > 80 },
         time_window: 1.minute,
         duration: 1.second
@@ -340,7 +340,7 @@ class AlertCheckerTest < ActiveSupport::TestCase
     RailsPerformance.alert_rules = [
       {
         name: "Server Offline",
-        report: RailsPerformance::SystemMonitor::CPULoad,
+        report: RailsPerformance::Widgets::CPULoad,
         threshold: ->(value) { value > 80 },
         time_window: 1.minute,
         duration: 1.second
@@ -374,7 +374,7 @@ class AlertCheckerTest < ActiveSupport::TestCase
     RailsPerformance.alert_rules = [
       {
         name: "High CPU Load",
-        report: RailsPerformance::SystemMonitor::CPULoad,
+        report: RailsPerformance::Widgets::CPULoad,
         threshold: ->(value) { value > 80 },
         time_window: 1.minute,
         duration: 1.second,

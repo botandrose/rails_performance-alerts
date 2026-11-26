@@ -1,6 +1,6 @@
 <div class="alert-box warning">
   <div class="alert-header">
-    🚨 Alert Triggered
+    🚨 <%= @app_name %> Alert Triggered
   </div>
 
   <p><strong><%= @name %></strong> <%= @current_value.nil? ? "has no data available." : "has exceeded its threshold." %></p>

@@ -10,12 +10,14 @@ class MailerTest < ActiveSupport::TestCase
       triggered_at: Time.now
     }
 
-    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com")
+    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp")
 
     assert_equal ["admin@example.com"], email.to
-    assert_equal "🚨 Alert Triggered: High Response Time", email.subject
+    assert_equal "[MyApp] 🚨 Alert Triggered: High Response Time", email.subject
     assert_match(/High Response Time/, email.html_part.body.to_s)
     assert_match(/750\.5/, email.html_part.body.to_s)
+    assert_match(/MyApp/, email.html_part.body.to_s)
+    assert_match(/MyApp/, email.text_part.body.to_s)
   end
 
   test "resolved email has correct subject and recipient" do
@@ -27,12 +29,14 @@ class MailerTest < ActiveSupport::TestCase
       was_triggered_at: triggered_at
     }
 
-    email = RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com")
+    email = RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp")
 
     assert_equal ["admin@example.com"], email.to
-    assert_equal "✅ Alert Resolved: High Response Time", email.subject
+    assert_equal "[MyApp] ✅ Alert Resolved: High Response Time", email.subject
     assert_match(/High Response Time/, email.html_part.body.to_s)
     assert_match(/250\.0/, email.html_part.body.to_s)
+    assert_match(/MyApp/, email.html_part.body.to_s)
+    assert_match(/MyApp/, email.text_part.body.to_s)
   end
 
   test "mailer accepts from parameter" do
@@ -44,7 +48,7 @@ class MailerTest < ActiveSupport::TestCase
       triggered_at: Time.now
     }
 
-    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "custom@example.com")
+    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "custom@example.com", app_name: "MyApp")
     assert_equal ["custom@example.com"], email.from
   end
 
@@ -58,7 +62,7 @@ class MailerTest < ActiveSupport::TestCase
     }
 
     assert_nothing_raised do
-      RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com").deliver_now
+      RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp").deliver_now
     end
   end
 
@@ -72,7 +76,7 @@ class MailerTest < ActiveSupport::TestCase
     }
 
     assert_nothing_raised do
-      RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com").deliver_now
+      RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp").deliver_now
     end
   end
 
@@ -85,7 +89,7 @@ class MailerTest < ActiveSupport::TestCase
       triggered_at: Time.now
     }
 
-    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com")
+    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp")
     assert_match(/30 seconds/, email.html_part.body.to_s)
     assert_match(/45 seconds/, email.html_part.body.to_s)
   end
@@ -99,10 +103,10 @@ class MailerTest < ActiveSupport::TestCase
       triggered_at: Time.now
     }
 
-    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com")
+    email = RailsPerformance::Alerts::Mailer.triggered(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp")
 
     assert_equal ["admin@example.com"], email.to
-    assert_equal "🚨 Alert Triggered: Server Offline", email.subject
+    assert_equal "[MyApp] 🚨 Alert Triggered: Server Offline", email.subject
     assert_match(/Server Offline/, email.html_part.body.to_s)
   end
 
@@ -115,10 +119,10 @@ class MailerTest < ActiveSupport::TestCase
       was_triggered_at: triggered_at
     }
 
-    email = RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com")
+    email = RailsPerformance::Alerts::Mailer.resolved(alert_data, to: "admin@example.com", from: "alerts@example.com", app_name: "MyApp")
 
     assert_equal ["admin@example.com"], email.to
-    assert_equal "✅ Alert Resolved: Server Offline", email.subject
+    assert_equal "[MyApp] ✅ Alert Resolved: Server Offline", email.subject
     assert_match(/Server Offline/, email.html_part.body.to_s)
   end
 end

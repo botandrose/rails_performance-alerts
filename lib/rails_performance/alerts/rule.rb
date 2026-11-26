@@ -49,9 +49,9 @@ module RailsPerformance
           return RailsPerformance::Reports.const_get(@report, false)
         end
 
-        # Try RailsPerformance::SystemMonitor namespace
-        if RailsPerformance::SystemMonitor.const_defined?(@report, false)
-          return RailsPerformance::SystemMonitor.const_get(@report, false)
+        # Try RailsPerformance::Widgets namespace (for resource charts like CPULoad, MemoryUsage, DiskUsage)
+        if RailsPerformance::Widgets.const_defined?(@report, false)
+          return RailsPerformance::Widgets.const_get(@report, false)
         end
 
         # Try top-level constant
@@ -59,13 +59,13 @@ module RailsPerformance
           return Object.const_get(@report, false)
         end
 
-        raise ArgumentError, "Class #{@report} not found in RailsPerformance::Reports, RailsPerformance::SystemMonitor, or top level"
+        raise ArgumentError, "Class #{@report} not found in RailsPerformance::Reports, RailsPerformance::Widgets, or top level"
       end
 
       private
 
       def resource_chart?
-        report_class.ancestors.include?(RailsPerformance::SystemMonitor::ResourceChart)
+        report_class.ancestors.include?(RailsPerformance::Widgets::ResourceChart)
       end
 
       def fetch_data

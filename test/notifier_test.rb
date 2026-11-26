@@ -1,5 +1,9 @@
 require "test_helper"
 
+module NotifierTestApp
+  class Application; end
+end
+
 class EmailNotifierTest < ActiveSupport::TestCase
   test "initializes with recipients and from" do
     notifier = RailsPerformance::Alerts::EmailNotifier.new(
@@ -68,6 +72,34 @@ class EmailNotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_equal ["admin@example.com"], ActionMailer::Base.deliveries[0].to
     assert_match(/Alert Resolved/, ActionMailer::Base.deliveries[0].subject)
+  end
+
+  test "includes app name in email subject" do
+    notifier = RailsPerformance::Alerts::EmailNotifier.new(
+      recipients: "admin@example.com",
+      from: "alerts@example.com",
+      app_name: "MyApp",
+      smtp_settings: nil
+    )
+
+    ActionMailer::Base.deliveries.clear
+    notifier.call(action: :triggered, name: "High Response Time", current_value: 750.5, time_window: 300, duration: 180, triggered_at: Time.now)
+
+    assert_equal "[MyApp] 🚨 Alert Triggered: High Response Time", ActionMailer::Base.deliveries[0].subject
+  end
+
+  test "defaults app name to the Rails application name" do
+    Rails.application = NotifierTestApp::Application.new
+
+    notifier = RailsPerformance::Alerts::EmailNotifier.new(
+      recipients: "admin@example.com",
+      from: "alerts@example.com",
+      smtp_settings: nil
+    )
+
+    assert_equal "NotifierTestApp", notifier.app_name
+  ensure
+    Rails.application = nil
   end
 
   test "configures smtp settings when provided" do

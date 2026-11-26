@@ -1,4 +1,4 @@
-🚨 ALERT TRIGGERED 🚨
+🚨 <%= @app_name %> ALERT TRIGGERED 🚨
 
 <%= @name %> <%= @current_value.nil? ? "has no data available." : "has exceeded its threshold." %>
 
@@ -12,4 +12,4 @@ Triggered At:  <%= @triggered_at.strftime("%Y-%m-%d %H:%M:%S %Z") %>
 Please investigate this issue as soon as possible.
 
 ---
-This is an automated alert from RailsPerformance::Alerts
+This is an automated alert from <%= @app_name %>

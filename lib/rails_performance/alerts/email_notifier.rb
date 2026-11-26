@@ -2,8 +2,8 @@ require_relative "mailer"
 
 module RailsPerformance
   module Alerts
-    class EmailNotifier < Data.define(:recipients, :from, :smtp_settings)
-      def initialize recipients:, from:, smtp_settings: ::Rails.application.config.action_mailer.smtp_settings
+    class EmailNotifier < Data.define(:recipients, :from, :app_name, :smtp_settings)
+      def initialize recipients:, from:, app_name: ::Rails.application.class.module_parent_name, smtp_settings: ::Rails.application.config.action_mailer.smtp_settings
         recipients = Array(recipients)
         super
       end
@@ -19,11 +19,11 @@ module RailsPerformance
         case alert[:action]
         when :triggered
           recipients.each do |recipient|
-            Mailer.triggered(alert, to: recipient, from: from).deliver_now
+            Mailer.triggered(alert, to: recipient, from: from, app_name: app_name).deliver_now
           end
         when :resolved
           recipients.each do |recipient|
-            Mailer.resolved(alert, to: recipient, from: from).deliver_now
+            Mailer.resolved(alert, to: recipient, from: from, app_name: app_name).deliver_now
           end
         end
       end
