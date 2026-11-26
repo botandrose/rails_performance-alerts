@@ -48,7 +48,7 @@ RailsPerformance.setup do |config|
     # System resource alerts (requires rails_performance's system monitoring to be enabled)
     {
       name: "High CPU Load",
-      report: "CPULoad",                     # RailsPerformance::SystemMonitor::CPULoad
+      report: "CPULoad",                     # RailsPerformance::Widgets::CPULoad
       threshold: ->(value) { value > 80 },   # Alert when CPU > 80%
       time_window: 5.minutes,
       duration: 3.minutes
@@ -97,7 +97,7 @@ Any report class from `RailsPerformance::Reports::*`:
 
 ### System Resource Charts
 
-Monitor system resources with `RailsPerformance::SystemMonitor::*` classes:
+Monitor system resources with `RailsPerformance::Widgets::*` classes:
 - `CPULoad` - CPU load average
 - `MemoryUsage` - Application memory usage (in bytes)
 - `DiskUsage` - Available disk space (in bytes)
@@ -178,7 +178,7 @@ For system resource alerts, you can monitor a specific server by providing the `
 ```ruby
 {
   name: "High Memory on Production Web Server",
-  report: RailsPerformance::SystemMonitor::MemoryUsage,
+  report: RailsPerformance::Widgets::MemoryUsage,
   server: "web-server-1///production///web",  # Format: hostname///context///role
   threshold: ->(value) { value > 2_000_000_000 },
   time_window: 5.minutes,
@@ -195,7 +195,7 @@ By default, alerts will trigger when metric data is missing (e.g., no server rep
 ```ruby
 {
   name: "Server Offline",
-  report: RailsPerformance::SystemMonitor::CPULoad,
+  report: RailsPerformance::Widgets::CPULoad,
   threshold: ->(value) { value > 80 },
   time_window: 5.minutes,
   duration: 2.minutes,
@@ -208,7 +208,7 @@ If you want to ignore missing data and only alert on threshold breaches:
 ```ruby
 {
   name: "High CPU (ignore missing data)",
-  report: RailsPerformance::SystemMonitor::CPULoad,
+  report: RailsPerformance::Widgets::CPULoad,
   threshold: ->(value) { value > 80 },
   time_window: 5.minutes,
   duration: 2.minutes,
