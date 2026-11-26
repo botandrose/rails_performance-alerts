@@ -4,7 +4,8 @@ module RailsPerformance
       prepend_view_path File.expand_path("views", __dir__)
       layout "rails_performance/alerts/layouts/mailer"
 
-      def triggered alert_data, to:, from:
+      def triggered alert_data, to:, from:, app_name:
+        @app_name = app_name
         @alert = alert_data
         @name = alert_data[:name]
         @current_value = alert_data[:current_value]
@@ -15,11 +16,12 @@ module RailsPerformance
         mail(
           to: to,
           from: from,
-          subject: "🚨 Alert Triggered: #{@name}",
+          subject: "[#{@app_name}] 🚨 Alert Triggered: #{@name}",
         )
       end
 
-      def resolved alert_data, to:, from:
+      def resolved alert_data, to:, from:, app_name:
+        @app_name = app_name
         @alert = alert_data
         @name = alert_data[:name]
         @current_value = alert_data[:current_value]
@@ -30,7 +32,7 @@ module RailsPerformance
         mail(
           to: to,
           from: from,
-          subject: "✅ Alert Resolved: #{@name}",
+          subject: "[#{@app_name}] ✅ Alert Resolved: #{@name}",
         )
       end
 

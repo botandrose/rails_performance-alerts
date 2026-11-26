@@ -72,7 +72,8 @@ RailsPerformance.setup do |config|
   config.alert_handler = RailsPerformance::Alerts::EmailNotifier.new(
     recipients: ["team@yourapp.com", "ops@yourapp.com"],
     from: "alerts@yourapp.com",
-    smtp_settions: { ... } # defaults to Rails ActionMailer config if omitted
+    app_name: "YourApp", # shown in subject and body; defaults to your Rails application's name
+    smtp_settings: { ... } # defaults to Rails ActionMailer config if omitted
   )
 end
 ```
